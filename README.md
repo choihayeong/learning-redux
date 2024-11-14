@@ -1,2 +1,3 @@
 # learning-redux
-learning vanilla-redux and react-redux
+
+> learning vanilla-redux and react-redux
