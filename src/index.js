@@ -1,25 +1,23 @@
+import { createStore } from "redux";
+
 const addBtnEl = document.getElementById("addBtn");
 const minusBtnEl = document.getElementById("minusBtn");
 const result = document.querySelector("span");
 
-let count = 0;
+const countModifier = (count = 0, action) => {
+  // console.log(action);
 
-result.innerText = count;
-
-const updateText = () => {
-  result.innerText = count;
-}
-
-
-const clickAddBtn = () => {
-  count = count + 1;
-  updateText();
+  if (action.type === "add") {
+    return count + 1;
+  } else if (action.type === "minus") {
+    return count - 1;
+  } else {
+    return count;
+  }  
 };
 
-const clickMinusBtn = () => {
-  count = count - 1;
-  updateText();
-};
+const countStore = createStore(countModifier);
 
-addBtnEl.addEventListener("click", clickAddBtn);
-minusBtnEl.addEventListener("click", clickMinusBtn);
+countStore.dispatch({ type: "add" });
+
+console.log(countStore.getState());
