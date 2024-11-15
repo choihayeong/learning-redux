@@ -38,7 +38,7 @@ let count = 0;
 //...
 ```
 
-- `console.log(countStore)` 의 4가지 중요한 속성
+- `console.log(countStore)` 중요한 속성 : `countStore.getState()`
 
 ```javascript
 import { createStore } from "redux";
@@ -51,8 +51,6 @@ const countStore = createStore(countModifier);
 
 console.log(countStore);
 ```
-
-- `countStore.getState()`
 
 ```javascript
 console.log(countStore.getState()); // countModifier 함수의 리턴 값이 콘솔에 뜬다. => data를 가공시켜줌
@@ -95,4 +93,30 @@ const countStore = createStore(countModifier);
 countStore.dispatch({ type: "ADD" });
 
 console.log(countStore.getState()); // count + 1를 한 1이 콘솔에 뜬다.
+```
+
+
+## `subscribe()`
+
+- html에 렌더링 시켜줌
+
+```javascript
+import { createStore } from "redux";
+
+const addBtnEl = document.getElementById("addBtn");
+const minusBtnEl = document.getElementById("minusBtn");
+const result = document.querySelector("span");
+
+result.innerText = 0;
+
+const countStore = createStore(countModifier);
+
+const onChange = () => {
+    result.innerText = countStore.getState();
+};
+
+countStore.subscribe(onChange);
+
+addBtnEl.addEventListener("click", () => countStore.dispatch({ type: "add" }));
+minusBtnEl.addEventListener("click", () => countStore.dispatch({ type: "minus" }));
 ```
