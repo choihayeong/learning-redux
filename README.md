@@ -120,3 +120,47 @@ countStore.subscribe(onChange);
 addBtnEl.addEventListener("click", () => countStore.dispatch({ type: "add" }));
 minusBtnEl.addEventListener("click", () => countStore.dispatch({ type: "minus" }));
 ```
+
+<hr /> 
+
+## Redux: To do
+
+- [three principles](https://redux.js.org/understanding/thinking-in-redux/three-principles)
+
+    * mutation 하지 말 것 (new state object 사용)
+
+```javascript
+// ❌ 예시
+
+const reducer = (state = [], action) => {
+  console.log(action);
+
+  switch(action.type) {
+    case ADD_TODO:
+      return state.push(action.text); // ❌ 이렇게 mutation 사용 하지 않음
+    case DELETE_TODO: 
+      return [];
+    default:
+      return state;
+  }
+};
+
+```
+
+```javascript
+// 예시
+
+const reducer = (state = [], action) => {
+  console.log(action);
+
+  switch(action.type) {
+    case ADD_TODO:
+      return [...state, { text: action.text }]; // 
+    case DELETE_TODO: 
+      return [];
+    default:
+      return state;
+  }
+};
+
+```
