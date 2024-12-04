@@ -28,7 +28,7 @@ const reducer = (state = [], action) => {
     case ADD_TODO:
       return [{ text: action.text, id: Date.now() }, ...state];
     case DELETE_TODO: 
-      return [];
+      return state.filter(item => item.id !== parseInt(action.id));
     default:
       return state;
   }
@@ -39,12 +39,12 @@ const todoStore = createStore(reducer);
 todoStore.subscribe(() => console.log(todoStore.getState()));
 
 const dispatchDeleteTodo = e => {
-  const id = e.target.parentNode.id;
+  const id = parseInt(e.target.parentNode.id);
 
   todoStore.dispatch(deleteTodo(id));
 };
 
-const getTodos = () => {
+const setTodos = () => {
   const toDos = todoStore.getState();
   ulEl.innerHTML = "";
 
@@ -56,13 +56,13 @@ const getTodos = () => {
     button.addEventListener("click", dispatchDeleteTodo);
     li.id = item.id;
     li.innerText = item.text;
-    
+
     li.appendChild(button);
     ulEl.appendChild(li);
   });
 };
 
-todoStore.subscribe(getTodos);
+todoStore.subscribe(setTodos);
 
 const dispatchAddTodo = text => {
   todoStore.dispatch(addTodo(text));
