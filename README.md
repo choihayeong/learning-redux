@@ -163,4 +163,9 @@ const reducer = (state = [], action) => {
   }
 };
 
+const todoStore = createStore(reducer);
+
+todoStore.subscribe(() => console.log(todoStore.getState()));
+
 ```
+
