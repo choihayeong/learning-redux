@@ -8,7 +8,9 @@
 npm install redux
 ```
 
-## Store and Reducer
+## `CreateStore`
+
+### Store and Reducer
 
 - store는 data(state)를 넣는 곳임.
 
@@ -71,7 +73,7 @@ console.log(countStore.getState()); // count 값인 0이 콘솔에 뜬다.
 ```
 
 
-## Action & `dispatch()`
+### Action & `dispatch()`
 
 - reducer 함수의 두 번째 argument는 action이라고 한다. `dispatch()`를 사용해서 reducer에 action 값을 보내줌
 
@@ -96,7 +98,7 @@ console.log(countStore.getState()); // count + 1를 한 1이 콘솔에 뜬다.
 ```
 
 
-## `subscribe()`
+### `subscribe()`
 
 - html에 렌더링 시켜줌
 
@@ -169,3 +171,94 @@ todoStore.subscribe(() => console.log(todoStore.getState()));
 
 ```
 
+
+## `react-redux`
+
+- `react-redux`와 `react-router-dom` 설치
+
+```bash
+npm i react-redux react-router-dom
+```
+
+- `/src/components/` 폴더 내 `App.jsx` 파일 생성 후 Router 관련 임포트
+
+```javascript
+// App.jsx
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Home from "../routers/Home";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home />
+  }
+]);
+
+function App () {
+  return <RouterProvider router={router} />;
+}
+
+export default App;
+```
+
+- `main.jsx` 파일 수정
+
+```javascript
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import App from "./components/App";
+
+createRoot(document.getElementById("root")).render(
+  <StrictMode>
+    <App />
+  </StrictMode>
+);
+```
+
+- `/src/routes/` 폴더 생성 후 `Home.jsx`, `Detail.jsx` 파일 생성
+
+```javascript
+// Home.jsx
+
+function Home () {
+  return (
+    <>
+      <h1>To Do</h1>
+      <form>
+        <input type="text" value={text} onChange={onChange} />
+        <button>Add</button>
+      </form>
+      <ul></ul>
+    </>
+  );
+}
+
+export default Home;
+```
+
+- `useState` 추가
+
+```javascript
+// Home.jsx
+
+```
+
+### `mapStateToProps`
+
+- [react-redux 공식문서: mapStateToProps](https://react-redux.js.org/using-react-redux/connect-mapstate)
+
+- `Home.jsx` 에서 다음 함수를 추가
+
+```javascript
+import { connect } from "react-redux";
+
+function Home() {
+  return //...
+}
+
+function mapStateToProps (state, ownProps) {
+  return {}; // 기본적으로 object 타입을 리턴
+}
+
+export default connect(mapStateToProps)(Home);
+```
