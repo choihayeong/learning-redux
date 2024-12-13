@@ -22,12 +22,12 @@ npm install redux
 import { createStore } from "redux";
 
 // ...
-let count = 0; // count 함수가 변화하는 데이터 이므로 state가 된다.
+let count = 0; // count 변수가 변화하는 데이터 이므로 state가 된다.
 ```
 
 - `createStore` 함수는 `reducer`라는 함수 argument가 필요함
 
-    * reducer는 store 데이터를 가공해주는 함수 argument임
+    * reducer는 store 데이터를 가공해주는 createStore 함수 argument임
 
 ```javascript
 import { createStore } from "redux";
@@ -215,6 +215,19 @@ createRoot(document.getElementById("root")).render(
 );
 ```
 
+- `index.html` 파일 수정
+
+```html
+<head>
+  <!-- meta tags -->
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+```
+
 - `/src/routes/` 폴더 생성 후 `Home.jsx`, `Detail.jsx` 파일 생성
 
 ```javascript
@@ -225,7 +238,7 @@ function Home () {
     <>
       <h1>To Do</h1>
       <form>
-        <input type="text" value={text} onChange={onChange} />
+        <input type="text" />
         <button>Add</button>
       </form>
       <ul></ul>
@@ -240,7 +253,89 @@ export default Home;
 
 ```javascript
 // Home.jsx
+import { useState } from "react";
 
+function Home() {
+  const [text, setText] = useState("");
+  function onChange(e) {
+    setText(e.target.value);
+  }
+  function onSubmit(e) {
+    e.preventDefault();
+    console.log(text);
+  }
+
+  return(
+    <>
+      <h1>To Do</h1>
+      <form>
+        <input type="text" value={text} onChange={onChange} />
+        <button>Add</button>
+      </form>
+      <ul></ul>
+    </>
+  )
+}
+
+export default Home;
+```
+
+### Setting `store.js`
+
+- `/src/store.jsx` 파일 생성
+
+```javascript
+import { createStore } from "redux";
+
+const ADD = "ADD";
+const DELETE = "DELETE";
+
+export const addTodo = text => {
+  return {
+    type: ADD,
+    text
+  };
+};
+
+export const deleteTodo = id => {
+  return {
+    type: DELETE,
+    id
+  };
+};
+
+const reducer = (state= [], action) => {
+  switch(action.type) {
+    case ADD:
+      return [{text: action.text, id: Date.now()}, ...state];
+    case DELETE:
+      return state.filter(item => item !== action.id);
+    default:
+      return state;
+  }
+};
+
+const store = createStore(reducer);
+
+export default store;
+```
+
+- `/src/main.jsx` 파일에 다음과 같이 작성
+
+```javascript
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import App from './components/App'
+import { Provider } from 'react-redux' // 추가
+import store from './store' // 추가
+
+createRoot(document.getElementById("root")).render(
+  <StrictMode>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </StrictMode>
+)
 ```
 
 ### `mapStateToProps`
