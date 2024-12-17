@@ -29,15 +29,12 @@ function Home({ toDos, addTodo }) {
 }
 
 function mapStateToProps(state, ownProps) {
-    // console.log(state, ownProps);
     return {
         toDos: state
     };
 }
 
 function mapDispatchToProps(dispath) {
-    console.log(dispath);
-
     return {
         addTodo: (text) => dispath(actionCreators.addTodo(text))
     }

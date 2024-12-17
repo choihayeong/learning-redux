@@ -1,11 +1,14 @@
 import { connect } from "react-redux";
 import { actionCreators } from "../store";
+import { Link } from "react-router-dom";
 
-// eslint-disable-next-line react/prop-types
-const ToDo = ({text, onBtnClick}) => {
-    return <li>
-        {text} <button type="button" onClick={onBtnClick}>DEL</button>
-    </li>
+const ToDo = ({text, id, onBtnClick}) => {
+    return (
+    
+    <li>
+        <Link to={`/${id}`}>{text}</Link>
+        <button type="button" onClick={onBtnClick}>DEL</button>
+    </li>)
 };
 
 const mapDispatchToProps = (dispath, ownProps) => {
