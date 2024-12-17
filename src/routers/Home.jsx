@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { connect } from "react-redux";
 import { actionCreators } from "../store";
+import ToDo from "../components/Todo";
 
 function Home({ toDos, addTodo }) {
     const [text, setText] = useState("");
@@ -21,7 +22,7 @@ function Home({ toDos, addTodo }) {
                 <button>Add</button>
             </form>
             <ul>
-                {JSON.stringify(toDos)}
+                {toDos.map(item => (<ToDo key={item.id} {...item} />))}
             </ul>
         </>
     );
@@ -42,6 +43,4 @@ function mapDispatchToProps(dispath) {
     }
 }
 
-
-// export default connect(null, mapDispatchToProps)(Home);
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

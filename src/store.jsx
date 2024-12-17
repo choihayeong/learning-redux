@@ -13,21 +13,21 @@ const addTodo = text => {
 const deleteTodo = id => {
     return {
         type: DELETE,
-        id
+        id: parseInt(id)
     };
 };
 
 
-const reducer = (state= ["hello"], action) => {
+const reducer = (state= [], action) => {
     switch(action.type) {
         case ADD:
             return [{text: action.text, id: Date.now()}, ...state];
         case DELETE:
-            return state.filter(item => item !== action.id);
+            return state.filter(item => item.id !== action.id);
         default:
             return state;
     }
-}
+};
 
 const store = createStore(reducer);
 
